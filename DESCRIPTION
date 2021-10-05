@@ -2,9 +2,8 @@ Package: resevol
 Type: Package
 Title: Simulate Agricultural Production and Evolution of Pesticide
         Resistance
-Version: 0.2.0.2
-Imports: grDevices (>= 4.0.0), graphics (>= 4.0.0), stats(>= 4.0.0),
-        utils (>= 4.0.0)
+Version: 0.2.0.8
+Imports: stats(>= 4.0.0), utils (>= 4.0.0)
 Authors@R: c(person("A. Bradley", "Duthie", email = "brad.duthie@gmail.com",
                   role = c("aut", "cre"),
                   comment = c(ORCID = "0000-0001-8343-4995")),
@@ -34,11 +33,11 @@ VignetteBuilder: knitr
 Suggests: knitr, rmarkdown, testthat, markdown
 RoxygenNote: 7.1.1
 NeedsCompilation: yes
-Packaged: 2021-09-22 09:55:22 UTC; brad
+Packaged: 2021-09-24 09:46:34 UTC; brad
 Author: A. Bradley Duthie [aut, cre] (<https://orcid.org/0000-0001-8343-4995>),
   Rose McKeon [aut, ctr],
   Rosie Mangan [ctr],
   Luc Bussi&eacute;re [ctr],
   Matthew Tinsley [ctr]
 Repository: CRAN
-Date/Publication: 2021-09-22 19:20:09 UTC
+Date/Publication: 2021-10-05 23:20:16 UTC
