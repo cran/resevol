@@ -241,19 +241,19 @@ arrows_1_mat &lt;- matrix(data = arrows_1_dat, nrow = 12, ncol = 4);
 print(arrows_1_mat);
 </code></pre>
 
-<pre><code>##               [,1]          [,2]         [,3]         [,4]
-##  [1,] -0.172596578 -0.1039353526 -0.020696136 -0.220294433
-##  [2,] -0.030996032  0.0341692559  0.120017727 -0.057015350
-##  [3,] -0.003380086  0.0241329680 -0.019743793  0.012577066
-##  [4,] -0.057750275 -0.0325059442 -0.144524699  0.041734317
-##  [5,] -0.052021107  0.0689705528 -0.150847325 -0.026163688
-##  [6,] -0.000387991 -0.0006283076  0.154512668 -0.064345061
-##  [7,] -0.110093466  0.0248618789 -0.146508012  0.060973878
-##  [8,] -0.037411197  0.0805084966 -0.218659262  0.033012018
-##  [9,] -0.011187448 -0.0354125566 -0.125926677 -0.062640272
-## [10,]  0.116881922  0.3250783190 -0.003218956 -0.098121996
-## [11,]  0.061244095  0.1580222413  0.097242386  0.078099895
-## [12,] -0.064041634 -0.0409516156 -0.003923508 -0.005834722
+<pre><code>##               [,1]        [,2]         [,3]          [,4]
+##  [1,]  0.150959426  0.04277192 -0.068607304 -0.2847108196
+##  [2,]  0.030934562 -0.14165761 -0.152406429 -0.1070741460
+##  [3,] -0.010599798 -0.04619043  0.179784129 -0.0206027192
+##  [4,] -0.134416608  0.04899197 -0.058324863  0.0741045666
+##  [5,]  0.016347672 -0.03257365  0.050235738  0.0580994255
+##  [6,] -0.076774725 -0.09501146 -0.063027188 -0.1353777342
+##  [7,] -0.068069371 -0.04155841  0.060901175  0.2095718207
+##  [8,]  0.086664205  0.01582158  0.070279313 -0.0464558889
+##  [9,] -0.010479296 -0.03299762 -0.014321858 -0.1120699226
+## [10,]  0.144620338 -0.05059477  0.001419575  0.1050192116
+## [11,] -0.119899454  0.03091931 -0.012484492  0.0002347961
+## [12,]  0.006648789 -0.07442385  0.038026169 -0.0103498464
 </code></pre>
 
 <p>We can initialise 12 allele values, one for each locus.</p>
@@ -266,8 +266,8 @@ print(arrows_1_mat);
 <pre><code class="r">print(loci %*% arrows_1_mat);
 </code></pre>
 
-<pre><code>##           [,1]       [,2]      [,3]    [,4]
-## [1,] 0.1595076 0.01663486 0.5826385 0.15349
+<pre><code>##             [,1]      [,2]      [,3]      [,4]
+## [1,] -0.03169266 0.1287975 0.2237834 0.2999312
 </code></pre>
 
 <p>We can likewise use a 4 by 4 square matrix to represent the values of the arrows from the first column of four hidden layer nodes to the second column of hidden layer nodes.</p>
@@ -277,11 +277,11 @@ arrows_2_mat &lt;- matrix(data = arrows_2_dat, nrow = 4, ncol = 4);
 print(arrows_2_mat);
 </code></pre>
 
-<pre><code>##             [,1]        [,2]       [,3]        [,4]
-## [1,] -0.09545822  0.15611708 -0.1114502 -0.01779838
-## [2,]  0.11715093 -0.07587285  0.1423834  0.01746264
-## [3,]  0.03896281 -0.04479778  0.1262343 -0.16431752
-## [4,]  0.07924106  0.03337585 -0.1423193 -0.30204933
+<pre><code>##             [,1]         [,2]        [,3]        [,4]
+## [1,]  0.02636089  0.138106394 -0.17273469 -0.10208946
+## [2,]  0.01606921 -0.005632444 -0.01192603 -0.08096724
+## [3,] -0.10827493 -0.019076444  0.14290702 -0.02049486
+## [4,]  0.10551947 -0.150708429 -0.13991734  0.02625946
 </code></pre>
 
 <p>We can then use matrix multiplication to map the 12 allele values to the values of the second column of hidden layer nodes.</p>
@@ -289,8 +289,8 @@ print(arrows_2_mat);
 <pre><code class="r">print(loci %*% arrows_1_mat %*% arrows_2_mat);
 </code></pre>
 
-<pre><code>##            [,1]       [,2]       [,3]       [,4]
-## [1,] 0.02158642 0.00266168 0.03629574 -0.1446478
+<pre><code>##             [,1]        [,2]         [,3]         [,4]
+## [1,] 0.008652678 -0.05457356 -0.006046979 -0.003903267
 </code></pre>
 
 <p>This pattern can continue, with 4 by 4 square matrices representing the value of arrows between columns of hidden layer nodes, and between the last hidden layer column and traits (note that the number of hidden layer columns can be any natural number, but the number of nodes within a column always equals the number of traits). In the <a href="https://github.com/bradduthie/resevol/blob/master/src/mine_gmatrix.c">actual evolutionary algorithm code</a>, all of these square matrices are themselves held in a large 3D array. But the idea is the same; a vector of allele values is multiplied by multiple matrices until a set of trait values is produced. If multiple vectors of random standard normal allele values are generated, then the traits that they produce from all of this matrix multiplication can be made to covary in some pre-specified way using the evolutionary algorithm.</p>
