@@ -72,7 +72,11 @@ run_farm_sim(
   baseline_metabolism = 0,
   min_age_metabolism = 1,
   max_age_metabolism = 9,
-  terrain = NA
+  terrain = NA,
+  trait_means = NULL,
+  land_edge = "torus",
+  crop_growth = 0,
+  crop_growth_type = "none"
 )
 }
 \arguments{
@@ -399,11 +403,11 @@ is always added to metabolism for each individual. By default, this value is
 
 \item{min_age_metabolism}{This determines the minimum age at which losses of 
 food consumed in previous time steps enacted by metabolism and 
-baseline_metabolsim can occur.}
+baseline_metabolism can occur.}
 
 \item{max_age_metabolism}{This determines the maximum age at which losses of 
 food consumed in previous time steps enacted by metabolism and 
-baseline_metabolsim can occur.}
+baseline_metabolism can occur.}
 
 \item{terrain}{Insert a custom terrain of different farms, which takes the
 form of a matrix that includes a sequence of natural numbers in all matrix
@@ -418,6 +422,38 @@ not necessarily need to be farms. Through the use of a custom landscape and
 pesticide rotation option, these cells could represent something like 
 diversionary feeding sites or even buildings or rivers. See vignettes and 
 other documentation for details.}
+
+\item{trait_means}{This provides the mean values of the evolving pest traits
+in the initialised pest population, which by default are zero. To change 
+mean trait values in the initialised population, the trait_means argument
+requires a vector of the same length as the number of evolving pest traits
+defined within the function (i.e., if there are two evolving traits in the
+simulation, "T1" and "T2", then trait_means should be a vector of length 2).
+Note that mean trait values may change as the population evolves, so the
+values in this vector define only the means of the initial population.}
+
+\item{land_edge}{This sets what happens at the edge of the landscape. Three 
+options are possible, including "torus", "leaky", and "reflect". A torus
+results in no edge, such that pests that leave one side of the landscape
+end up on the other side. A leaky edge causes pests to leave the landscape
+and the simulation entirely, so they are effectively no longer recorded. A 
+reflective edge causes pests to bounce at the edge back in the direction from
+which they came. The default and recommended edge is a torus.}
+
+\item{crop_growth}{This sets the amount by which landscape cell values
+increase for each crop from one time step to the next. This might be used to
+model the increase in biomass caused by plant growth on the landscape cell.
+The way in which growth is enacted is set by crop_growth_type. Values for
+crop_growth can either be a single number (in which case, the growth amount
+applies to all crop types) or a vector of the same length as crop_types (in
+which case, vector indices give the amount of growth for each crop number).}
+
+\item{crop_growth_type}{This clarifies whether crop growth should be 
+"none" (default), "geometric", or "linear". If geometric, then the value of a
+landscape cell increases to cell_value * (1 + crop_growth). If linear, then
+a fixed value crop_growth is added to the existing cell value. Note that for
+linear growth, this fixed value is only added if the existing cell value is
+greater than zero (else it is assumed that there is no crop to grow).}
 }
 \value{
 The output in the R console is a list with two elements; the first 

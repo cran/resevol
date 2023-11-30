@@ -39,7 +39,8 @@ initialise_inds(
   metabolism = 0,
   baseline_metabolism = 0,
   min_age_metabolism = 1,
-  max_age_metabolism = 9
+  max_age_metabolism = 9,
+  trait_means = NULL
 )
 }
 \arguments{
@@ -113,6 +114,8 @@ initialise_inds(
 \item{min_age_metabolism}{The minimum age affected by metabolism}
 
 \item{max_age_metabolism}{The maximum age affected by metabolism}
+
+\item{trait_means}{The means of the custom pest traits}
 }
 \value{
 A two-dimensional array of individuals for simulation
@@ -136,3 +139,4 @@ mg        <- mine_gmatrix(gmatrix = gmt, loci = 4, layers = 2, indivs = 100,
                          npsize = 100, max_gen = 4, prnt_out = FALSE);
 inds      <- initialise_inds(mine_output = mg, N = 40, repro = "asexual");
 }
+\keyword{internal}

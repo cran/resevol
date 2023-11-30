@@ -278,10 +278,10 @@
 #' 0.
 #'@param min_age_metabolism This determines the minimum age at which losses of 
 #' food consumed in previous time steps enacted by metabolism and 
-#' baseline_metabolsim can occur.
+#' baseline_metabolism can occur.
 #'@param max_age_metabolism This determines the maximum age at which losses of 
 #' food consumed in previous time steps enacted by metabolism and 
-#' baseline_metabolsim can occur.
+#' baseline_metabolism can occur.
 #'@param terrain Insert a custom terrain of different farms, which takes the
 #' form of a matrix that includes a sequence of natural numbers in all matrix
 #' elements. For example, if there are 4 farms, then all matrix elements must
@@ -295,6 +295,34 @@
 #' pesticide rotation option, these cells could represent something like 
 #' diversionary feeding sites or even buildings or rivers. See vignettes and 
 #' other documentation for details.
+#'@param trait_means This provides the mean values of the evolving pest traits
+#' in the initialised pest population, which by default are zero. To change 
+#' mean trait values in the initialised population, the trait_means argument
+#' requires a vector of the same length as the number of evolving pest traits
+#' defined within the function (i.e., if there are two evolving traits in the
+#' simulation, "T1" and "T2", then trait_means should be a vector of length 2).
+#' Note that mean trait values may change as the population evolves, so the
+#' values in this vector define only the means of the initial population.
+#'@param land_edge This sets what happens at the edge of the landscape. Three 
+#' options are possible, including "torus", "leaky", and "reflect". A torus
+#' results in no edge, such that pests that leave one side of the landscape
+#' end up on the other side. A leaky edge causes pests to leave the landscape
+#' and the simulation entirely, so they are effectively no longer recorded. A 
+#' reflective edge causes pests to bounce at the edge back in the direction from
+#' which they came. The default and recommended edge is a torus.
+#'@param crop_growth This sets the amount by which landscape cell values
+#' increase for each crop from one time step to the next. This might be used to
+#' model the increase in biomass caused by plant growth on the landscape cell.
+#' The way in which growth is enacted is set by crop_growth_type. Values for
+#' crop_growth can either be a single number (in which case, the growth amount
+#' applies to all crop types) or a vector of the same length as crop_types (in
+#' which case, vector indices give the amount of growth for each crop number).
+#'@param crop_growth_type This clarifies whether crop growth should be 
+#' "none" (default), "geometric", or "linear". If geometric, then the value of a
+#' landscape cell increases to cell_value * (1 + crop_growth). If linear, then
+#' a fixed value crop_growth is added to the existing cell value. Note that for
+#' linear growth, this fixed value is only added if the existing cell value is
+#' greater than zero (else it is assumed that there is no crop to grow).
 #'@return The output in the R console is a list with two elements; the first 
 #'element is a vector of parameter values used by the model, and the second 
 #'element is the landscape in the simulation. The most relevant output will be
@@ -386,7 +414,11 @@ run_farm_sim <- function(mine_output,
                          baseline_metabolism = 0,
                          min_age_metabolism  = 1,
                          max_age_metabolism  = 9,
-                         terrain             = NA){
+                         terrain             = NA,
+                         trait_means         = NULL,
+                         land_edge           = "torus",
+                         crop_growth         = 0,
+                         crop_growth_type    = "none"){
   
     if(is.na(terrain)[1] == FALSE){
         xdim  <- dim(terrain)[1];
@@ -472,6 +504,9 @@ run_farm_sim <- function(mine_output,
     if(pesticide_number > 10){
         stop("Cannot have more than 10 pesticides");
     }
+    if(length(crop_growth) != 1 & length(crop_growth) != crop_number){
+        stop("crop_growth must be of length 1 or 'crop_number'.")
+    }
     
     food_consume <- as.list(food_consume);
     food_cons    <- NULL;
@@ -529,7 +564,8 @@ run_farm_sim <- function(mine_output,
                             metabolism               = metab_rate,
                             baseline_metabolism      = baseline_metabolism,
                             min_age_metabolism       = min_age_metabolism,
-                            max_age_metabolism       = max_age_metabolism);
+                            max_age_metabolism       = max_age_metabolism,
+                            trait_means              = trait_means);
     
     sim_results <- sim_crops(pests                    = pest, 
                              land                     = land,
@@ -575,7 +611,10 @@ run_farm_sim <- function(mine_output,
                              get_f_coef               = get_f_coef,
                              get_stats                = get_stats,
                              metabolism               = metabolism,
-                             farms                    = farms);
+                             farms                    = farms,
+                             land_edge                = land_edge,
+                             crop_growth              = crop_growth,
+                             crop_growth_type         = crop_growth_type);
   
     return(sim_results);
 }
@@ -624,9 +663,12 @@ sim_crops <- function(pests,
                       get_f_coef = FALSE,
                       get_stats  = TRUE,
                       metabolism = 0,
-                      farms = 4
+                      farms = 4,
+                      land_edge = "torus",
+                      crop_growth         = 0,
+                      crop_growth_type    = "geometric"
                       ){
-  
+    
   N    <- dim(pests)[1];
   W    <- dim(pests)[2];
   X    <- dim(land)[2];
@@ -661,6 +703,32 @@ sim_crops <- function(pests,
   immi <- immigration_rate;
   fcoe <- as.numeric(get_f_coef);
   sttt <- as.numeric(get_stats);
+  ledg <- 0;
+  if(land_edge == "leaky"){
+      ledg <- 1;
+  }
+  if(land_edge == "reflect"){
+      ledg <- 2;
+  }
+  if(land_edge == "sticky"){
+      ledg <- 3;
+  }
+  if(land_edge %in% c("torus", "leaky", "reflect", "sticky") == FALSE){
+      stop("ERROR: land_edge must be 'torus', 'leaky', 'reflect', or 'sticky'");
+  }
+  cgt  <- 0;
+  if(crop_growth_type == "geometric"){
+      cgt <- 1;
+  }
+  if(crop_growth_type == "linear"){
+      cgt <- 2;
+  }
+  if(crop_growth_type %in% c("none", "geometric", "linear") == FALSE){
+      stop("Crop growth type must be 'none', geometric' or 'linear'.");
+  }
+  if(is.numeric(crop_growth) == FALSE){
+      stop("Crop growth values must be numeric");
+  }
   
   paras  <- c( 0.0,   # 00) pests column for ID
                1.0,   # 01) pests column for xloc
@@ -752,19 +820,19 @@ sim_crops <- function(pests,
               87.0,   # 87) pests column for baseline metabolic rate (fixed)
               88.0,   # 88) pests column for minimum age of metabolism effects
               89.0,   # 89) pests column for maximum age of metabolism effects
-              90.0,   # 90)
-              91.0,   # 91)
-              92.0,   # 92)
-              93.0,   # 93)
-              94.0,   # 94)
-              95.0,   # 95)
-              96.0,   # 96)
-              97.0,   # 97)
-              98.0,   # 98)
-              99.0,   # 99)
+              90.0,   # 90) pests column for mean of Trait 1
+              91.0,   # 91) pests column for mean of Trait 2
+              92.0,   # 92) pests column for mean of Trait 3
+              93.0,   # 93) pests column for mean of Trait 4
+              94.0,   # 94) pests column for mean of Trait 5
+              95.0,   # 95) pests column for mean of Trait 6
+              96.0,   # 96) pests column for mean of Trait 7
+              97.0,   # 97) pests column for mean of Trait 8
+              98.0,   # 98) pests column for mean of Trait 9
+              99.0,   # 99) pests column for mean of Trait 10
               100.0,  # 100)
               N,      # 101) Number of rows in the pest array
-              0,      # 102) Torus landscape
+              ledg,   # 102) What happens at the landscape edge?
               X,      # 103) x dimension of the landscape
               Y,      # 104) y dimension of the landscape
               Z,      # 105) z dimension (depth) of the landscape
@@ -834,7 +902,8 @@ sim_crops <- function(pests,
               immi,   # 169) Average number of immigrants per time step
               0,      # 170) Realised number of immigrants
               fcoe,   # 171) Are inbreeding coefficients calculated?
-              sttt    # 172) Get a CSV printoff of statistics
+              sttt,   # 172) Get a CSV printoff of statistics
+              cgt     # 173) Crop growth type (geometric = 0 or linear = 1)
               );
 
   paras <- substitute_traits(paras, move_distance, food_needed_surv,
@@ -855,14 +924,18 @@ sim_crops <- function(pests,
   c_init       <- initialise_crops(crop_init, crpN, farms);
   p_init       <- initialise_pesticide(pesticide_init, pesN, farms); 
 
+  if(length(crop_growth) == 1){
+      crop_growth <- rep(x = crop_growth, times = crop_number);
+  }
+  
   SIM_RESULTS  <- run_farming_sim(pests, land, paras, c_rotate, p_rotate,
-                                  c_init, p_init);
+                                  c_init, p_init, crop_growth);
 
   return(SIM_RESULTS);
 }
 
-run_farming_sim <- function(IND, LAND, PARAS, CROT, PROT, CINIT, PINIT){
-  .Call("sim_farming", IND, LAND, PARAS, CROT, PROT, CINIT, PINIT);
+run_farming_sim <- function(IND, LAND, PARAS, CROT, PROT, CINIT, PINIT, CGROW){
+  .Call("sim_farming", IND, LAND, PARAS, CROT, PROT, CINIT, PINIT, CGROW);
 }
 
 substitute_traits <- function(paras, move_distance, food_needed_surv,
