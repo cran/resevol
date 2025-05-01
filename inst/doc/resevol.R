@@ -1,4 +1,4 @@
-## ---- echo = FALSE------------------------------------------------------------
+## ----echo = FALSE-------------------------------------------------------------
 library("resevol");
 oldpar <- par();
 
@@ -58,16 +58,16 @@ Hdn3  <- matrix(data = c(2.2, 1.6, 0.9, 0.8), nrow = 2, ncol = 2);
 Tvals <- Loci %*% Hdn1 %*% Hdn2 %*% Hdn3;
 text(x = Tx, y = Ty, labels = rev(Tvals), cex = 0.8);
 
-## ---- eval = FALSE------------------------------------------------------------
-#  trait_covs  <- matrix(data = c(1, -0.4, -0.4, 1), nrow = 2, ncol = 2);
-#  new_network <- mine_gmatrix(loci = 3, layers = 2, gmatrix = trait_covs,
-#                              max_gen = 1000, term_cri = -6.0, prnt_out = FALSE);
+## ----eval = FALSE-------------------------------------------------------------
+# trait_covs  <- matrix(data = c(1, -0.4, -0.4, 1), nrow = 2, ncol = 2);
+# new_network <- mine_gmatrix(loci = 3, layers = 2, gmatrix = trait_covs,
+#                             max_gen = 1000, term_cri = -6.0, prnt_out = FALSE);
 
-## ---- echo = FALSE------------------------------------------------------------
+## ----echo = FALSE-------------------------------------------------------------
 trait_covs  <- matrix(data = c(1, -0.4, -0.4, 1), nrow = 2, ncol = 2);
 load(system.file("new_network.rda", package = "resevol"));
 
-## ---- echo = FALSE------------------------------------------------------------
+## ----echo = FALSE-------------------------------------------------------------
 print(new_network[[6]]);
 
 ## ----flowchart, echo=FALSE, fig.height=3, fig.width=8, fig.cap = "**Figure 2**. *Overview of simulated events in the resevol R package. Note that metabolism, feeding, pesticide consumption, movement, and reproduction are all subject to a minimum and maximum pest age. Consequently, simulation order might not reflect the order of events from the perspective of a focal pest (e.g., pests might move from ages 1-2, but only feed from ages 2-4). Crops and pesticides are also not necessarily rotated in each time step (see Landscape). Statistics collected within a time step are printed to a CSV file.*"----
@@ -160,21 +160,21 @@ arrows(x0=35, x1=35, y0=60, y1=67, lwd=2, length=0.0);
 arrows(x0=35, x1=7, y0=67, y1=67, lwd=2, length=0.0);
 arrows(x0=7, x1=7, y0=67, y1=71.5, lwd=2, length=0.1);
 
-## ---- eval = FALSE------------------------------------------------------------
-#  sim <- run_farm_sim(mine_output = new_network, repro = "asexual",
-#                      pesticide_number = 2, pesticide_init = "random",
-#                      pesticide_consume = c("T1", "T2"), farms = 9,
-#                      pesticide_rotation_time = 16, pesticide_rotation_type = 3,
-#                      pesticide_tolerated_surv = 0, pesticide_per_cell = 1,
-#                      crop_rotation_time = 16, crop_number = 1, crop_per_cell = 4,
-#                      food_consume = 1, reproduction_type = "food_based",
-#                      food_needed_surv = 1, food_needed_repr = 1, max_age = 4,
-#                      min_age_feed = 0, max_age_feed = 2, min_age_move = 3,
-#                      max_age_move = 4, min_age_reproduce = 4, print_gens = FALSE,
-#                      max_age_reproduce = 4, age_pesticide_threshold = 2,
-#                      rand_age = TRUE, move_distance = 2, immigration_rate = 10,
-#                      time_steps = 160, print_last = TRUE, xdim = 64, ydim = 64,
-#                      trait_means = c(0.1, 0.1), land_edge = "torus");
+## ----eval = FALSE-------------------------------------------------------------
+# sim <- run_farm_sim(mine_output = new_network, repro = "asexual",
+#                     pesticide_number = 2, pesticide_init = "random",
+#                     pesticide_consume = c("T1", "T2"), farms = 9,
+#                     pesticide_rotation_time = 16, pesticide_rotation_type = 3,
+#                     pesticide_tolerated_surv = 0, pesticide_per_cell = 1,
+#                     crop_rotation_time = 16, crop_number = 1, crop_per_cell = 4,
+#                     food_consume = 1, reproduction_type = "food_based",
+#                     food_needed_surv = 1, food_needed_repr = 1, max_age = 4,
+#                     min_age_feed = 0, max_age_feed = 2, min_age_move = 3,
+#                     max_age_move = 4, min_age_reproduce = 4, print_gens = FALSE,
+#                     max_age_reproduce = 4, age_pesticide_threshold = 2,
+#                     rand_age = TRUE, move_distance = 2, immigration_rate = 10,
+#                     time_steps = 160, print_last = TRUE, xdim = 64, ydim = 64,
+#                     trait_means = c(0.1, 0.1), land_edge = "torus");
 
 ## ----overtime, echo=FALSE, fig.width=8, fig.cap = "**Figure 3**. *Agricultural pest ecological and evolutionary dynamics over 160 time steps from an individual-based simulation using the resevol R package. Panels show (a) pesticide abundance change, (b) mean realised amount of pesticides 1 and 2 uptaken per pest, (c) mean food consumed per pest, and (d) mean value of evolving traits 1 and 2 underlying pest uptake over time. Note that only pests with positive values for Traits 1 or 2 can uptake Pesticide 1 or 2, respectively. Pests with negative trait values will be unaffected by corresponding pesticides (i.e., pesticide consumption is a threshold trait), hence the difference between realised pesticide consumption (b) and the traits underlying it (d). White and grey vertical stripes indicate seasons of a single crop and pesticide application.*"----
 mbox <- function(x0, x1, y0, y1){
@@ -295,6 +295,6 @@ pesticide_cols     <- c("grey20", "grey60");
 image(pesticide_position, xaxt = "n", yaxt = "n", col = pesticide_cols);
 box();
 
-## ---- echo = FALSE------------------------------------------------------------
+## ----echo = FALSE-------------------------------------------------------------
 suppressWarnings(par(oldpar));
 

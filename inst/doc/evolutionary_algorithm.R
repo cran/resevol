@@ -1,7 +1,7 @@
-## ---- echo = FALSE------------------------------------------------------------
+## ----echo = FALSE-------------------------------------------------------------
 oldpar <- par();
 
-## ---- echo = FALSE, fig.width = 7, fig.height = 6, fig.cap = "**Figure 1:** *Network mapping loci to traits through an intermediate set of hidden layers in the mine_gmatrix function*"----
+## ----echo = FALSE, fig.width = 7, fig.height = 6, fig.cap = "**Figure 1:** *Network mapping loci to traits through an intermediate set of hidden layers in the mine_gmatrix function*"----
 par(mar = c(0.2, 0.2, 0, 0.2));
 plot(x = 0, y = 0, type = "n", xlim = c(0, 1000), ylim = c(0, 1000), 
      xaxt = "n", yaxt = "n", bty = "n", xlab = "", ylab = "");
@@ -55,7 +55,7 @@ print(arrows_2_mat);
 ## -----------------------------------------------------------------------------
 print(loci %*% arrows_1_mat %*% arrows_2_mat);
 
-## ---- echo=FALSE, fig.height=1.75, fig.width=6, fig.cap = "Figure 2: Conceptual overview of the evolutionary algorithm used in the resevol package."----
+## ----echo=FALSE, fig.height=1.75, fig.width=6, fig.cap = "Figure 2: Conceptual overview of the evolutionary algorithm used in the resevol package."----
 mbox <- function(x0, x1, y0, y1){
     xx <- seq(from=x0, to=x1, length.out = 100);
     yy <- seq(from=y0, to=y1, length.out = 100);
@@ -107,6 +107,6 @@ arrows(x0 = 80, x1 = 80, y0 = 62, y1 = 55, lwd = 2, length = 0);
 arrows(x0 = 80, x1 = 70, y0 = 55, y1 = 55, lwd = 2, length = 0.05);
 text(x=73, y=53, labels="Yes", col="black", cex = 0.5);
 
-## ---- echo = FALSE------------------------------------------------------------
+## ----echo = FALSE-------------------------------------------------------------
 suppressWarnings(par(oldpar));
 

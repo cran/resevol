@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="A Bradley Duthie" />
+
+<meta name="date" content="2025-05-01" />
+
+<title>Pesticide thresholds</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Pesticide thresholds</h1>
+<h4 class="author">A Bradley Duthie</h4>
+<h4 class="date">2025-05-01</h4>
+
+
+
+<hr />
+<div id="introduction" class="section level1">
+<h1><a name="introduction">Introduction</a></h1>
+<p>To model the process of people observing pests and reacting with an
+application of pesticide, version 0.4 of the resevol package introduces
+two new arguments to the <code>run_farm_sim</code> function. The
+argument <code>pesticide_threshold</code> specifies some pest density
+per cell above which the owner of the cell (i.e., the farmer) will apply
+pesticide. Pesticide application is initiated on a per-farm basis, and
+farmers act independently across farms. For example, suppose that there
+are four farmers on a landscape, and each has a threshold pesticide
+application of 10 (i.e., <code>pesticide_threshold = 10</code>). If only
+one of the four farmers observes a mean pest density exceeding 10 per
+cell, then only this farmer will begin to apply pesticide and will do so
+on all of their farm cells. The remaining farmers will not begin using
+pesticide until pest density exceeds 10 per cell on their own farms.
+Note that different pesticide densities can be set for different
+farmers. To do this, the <code>pesticide_threshold</code> argument can
+take a vector of the same length as the number of farms. For example, if
+there are four farmers, the first two with a pesticide application
+threshold of 10 and the second two with a threshold of 20, then
+<code>pesticide_threshold = c(10, 10, 20, 20)</code>. If on any time
+step, pest density on a farm is observed to fall below the threshold,
+then pesticide application immediately stops. By default,
+<code>pesticide_threshold</code> is set to <code>none</code> to indicate
+that no thresholds are used.</p>
+<p>The argument <code>pesticide_delay</code> models the time delay
+between the observation that pests have exceeded their tolerated
+threshold density and the initiation of pesticide use. If, for example,
+a farmer has a threshold of 10 and observes that pest first exceed this
+density on time step <span class="math inline">\(t\)</span>, then they
+will wait until <code>pesticide_delay</code> time steps have passed
+before pesticides are applied. If <span class="math inline">\(t =
+8\)</span> when pest density exceeds 10, and
+<code>pesticide_delay = 3</code>, then the farmer will start applying
+pesticide at <span class="math inline">\(t = 11\)</span>. This is
+intended to model the lag in time between the observance of a pest
+outbreak and the ability of a farmer to respond with pesticide
+application. As with the <code>pesticide_threshold</code> argument, the
+<code>pesticide_delay</code> argument can be set as a scalar value that
+applies to all farmers, or as a vector of delays with elements defining
+the delay for each farm. Note that if a pesticide threshold is positive,
+then the delay must be at least 1 time step (i.e., if a farmer notices
+that a threshold of pests has been exceeded, then the earliest that they
+can act is on the next time step).</p>
+</div>
+<div id="using-thresholds" class="section level1">
+<h1><a name="use">Using thresholds</a></h1>
+<p>To demonstrate thresholds, we can use a network output by
+<code>mine_gmatrix</code> already available within the resevol
+package.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">data</span>(gmatrices);</span></code></pre></div>
+<p>The <code>mg_n1</code> output includes 4 traits with the following
+covariance structure.</p>
+<pre><code>##             [,1]         [,2]         [,3]         [,4]
+## [1,]  1.06913329 -0.072243449  0.064732772 -0.056487174
+## [2,] -0.07224345  0.874066557  0.007063041 -0.007362562
+## [3,]  0.06473277  0.007063041  0.948800593 -0.009399430
+## [4,] -0.05648717 -0.007362562 -0.009399430  1.001389459</code></pre>
+<p>The above was mined with the <code>mine_gmatrix</code> function in
+which the argument <code>gmatrix</code> was set to an identity matrix
+with four rows and columns. We can use it in a simulation with a very
+clear interpretation of farmer thresholds and predicted pesticide
+applications.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>sim <span class="ot">&lt;-</span> <span class="fu">run_farm_sim</span>(<span class="at">mine_output =</span> mg_n1, <span class="at">repro =</span> <span class="st">&quot;asexual&quot;</span>, </span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>                    <span class="at">pesticide_number =</span> <span class="dv">1</span>, <span class="at">pesticide_init =</span> <span class="st">&quot;random&quot;</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                    <span class="at">pesticide_consume =</span> <span class="fu">c</span>(<span class="st">&quot;T1&quot;</span>), <span class="at">farms =</span> <span class="dv">5</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>                    <span class="at">pesticide_rotation_time =</span> <span class="dv">16</span>, <span class="at">pesticide_rotation_type =</span> <span class="dv">3</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>                    <span class="at">pesticide_tolerated_surv =</span> <span class="dv">0</span>, <span class="at">pesticide_per_cell =</span> <span class="dv">1</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>                    <span class="at">crop_rotation_time =</span> <span class="dv">4</span>, <span class="at">crop_number =</span> <span class="dv">1</span>, <span class="at">crop_per_cell =</span> <span class="dv">8</span>, </span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>                    <span class="at">food_consume =</span> <span class="dv">1</span>, <span class="at">reproduction_type =</span> <span class="st">&quot;food_based&quot;</span>, </span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>                    <span class="at">food_needed_surv =</span> <span class="dv">1</span>, <span class="at">food_needed_repr =</span> <span class="dv">1</span>, <span class="at">max_age =</span> <span class="dv">4</span>, </span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>                    <span class="at">min_age_feed =</span> <span class="dv">0</span>, <span class="at">max_age_feed =</span> <span class="dv">2</span>, <span class="at">min_age_move =</span> <span class="dv">3</span>, </span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>                    <span class="at">max_age_move =</span> <span class="dv">4</span>, <span class="at">min_age_reproduce =</span> <span class="dv">4</span>, <span class="at">print_gens =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>                    <span class="at">max_age_reproduce =</span> <span class="dv">4</span>, <span class="at">age_pesticide_threshold =</span> <span class="dv">2</span>, </span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>                    <span class="at">rand_age =</span> <span class="cn">TRUE</span>, <span class="at">move_distance =</span> <span class="dv">2</span>, <span class="at">immigration_rate =</span> <span class="dv">10</span>, </span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>                    <span class="at">time_steps =</span> <span class="dv">50</span>, <span class="at">print_last =</span> <span class="cn">FALSE</span>, <span class="at">xdim =</span> <span class="dv">18</span>, <span class="at">ydim =</span> <span class="dv">18</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>                    <span class="at">trait_means =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">land_edge =</span> <span class="st">&quot;torus&quot;</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>                    <span class="at">pesticide_threshold =</span> <span class="fu">c</span>(<span class="dv">10000</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">10000</span>), </span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>                    <span class="at">pesticide_delay =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>));</span></code></pre></div>
+<p>In the simulation above, there are 5 farms. The last two lines
+specify thresholds and densities for each farm. Farmers 1 and 5 have
+thresholds of 10000, while farmers 2-4 have thresholds of 0. Hence,
+there are two farmers that are very reluctant to apply pesticide, while
+there are three farmers that are willing to apply pesticide regardless
+of pest density. Farmers 1 and 2 are able to apply pesticides almost
+immediately because their <code>pesticide_delay</code> value equals 1.
+Farmers 3-5, instead, take 10 steps between their threshold being met
+and the initialisation of pesticide use.</p>
+<p>For the above combination, pest population size rises to roughly 600
+pests after 10 time steps, 1200 pests after 20 time steps, 1600 pests
+after 30 time steps, and 1900 pests after 40 time steps. Farmer
+behaviour is predictable. Farmers 1 and 5 never apply pesticide because
+the threshold densities of 10000 pests per cell are nowhere near
+exceeded. Farmer 2 begins applying pesticide immediately given their low
+threshold of zero and low delay of one. Farmer 3 begins applying
+pesticide at time step 10 given their low threshold but long delay. And
+farmer 4 begins applying pesticide sometime between time step 40 and 50,
+after their threshold has been reached and 10 time steps of delay have
+passed. Hence, it is possible to model a system in which different
+farmers have different management strategies and response rates using a
+combination of <code>pesticide_threshold</code> and
+<code>pesticide_delay</code>.</p>
+<p>There are some additional factors that are important to recognise
+when using <code>pesticide_threshold</code> and
+<code>pesticide_delay</code>, which stem from how
+<code>pesticide_rotation_time</code> is set. Once a farmer decides to
+set a pesticide, the pesticide will be present on the landscape until
+the next pesticide rotation, regardless of whether or not pest density
+drops back below a threshold. Pesticide rotation therefore simulates a
+period in which pesticide is applied on the landscape (which could be
+the same pesticide depending on other parameter settings). Consequently,
+pest density could, hypothetically, barely surpass the farmer’s
+threshold immediately before pesticide rotation, and if
+<code>pesticide_rotation_time</code> is high, then the pesticide will
+persist even if pest density plummets. Nevertheless, pest density is
+monitored every time step by farmers, and if pest density exceeds a
+farmer’s threshold, but then drops below the threshold again before a
+pesticide rotation event, the farmer will not take action (i.e., they
+will behave as if the pest problem has gone away on its own, and no
+pesticide needs to be applied).</p>
+</div>
+<div id="conclusion" class="section level1">
+<h1><a name="conclusion">Conclusion</a></h1>
+<p>The ability to set pesticide thresholds and delays for pesticide
+initialisation allows for considerable flexibility in model simulation.
+But these parameters should be applied carefully and with an
+understanding of the effect they are having on farmer behaviour. Unless
+simulating a specific scenario in which farmers are reacting to
+pesticide densities, it is recommended to simply set the default
+<code>pesticide_threshold = &quot;none&quot;</code>.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
