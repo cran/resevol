@@ -12,7 +12,7 @@
 
 <meta name="author" content="A Bradley Duthie" />
 
-<meta name="date" content="2025-05-01" />
+<meta name="date" content="2026-05-28" />
 
 <title>The evolutionary algorithm</title>
 
@@ -363,7 +363,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">The evolutionary algorithm</h1>
 <h4 class="author">A Bradley Duthie</h4>
-<h4 class="date">2025-05-01</h4>
+<h4 class="date">2026-05-28</h4>
 
 
 
@@ -390,8 +390,8 @@ traits that covary in the way that we want them to covary (within some
 acceptable margin of error). The <code>mine_gmatrix</code> function uses
 an evolutionary algorithm for identifying sets of values that work. An
 evolutionary algorithm is an algorithm that works especially well for
-<em>I know it when I see it</em> problems <span class="citation">(<a href="#ref-Hamblin2013">Hamblin 2013</a>)</span>. <span class="citation">(<a href="#ref-Luke2013"><strong>Luke2013?</strong></a>)</span> explains the
-idea behind these algorithms in more detail:</p>
+<em>I know it when I see it</em> problems <span class="citation">(<a href="#ref-Hamblin2013">Hamblin 2013</a>)</span>. <span class="citation">Luke (<a href="#ref-Luke2013">2013</a>)</span> explains
+the idea behind these algorithms in more detail:</p>
 <blockquote>
 <p>They’re algorithms used to find answers to problems when you have
 very little to help you: you don’t know beforehand what the optimal
@@ -425,43 +425,43 @@ in the evolutionary algorithm.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>arrows_1_dat <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">4</span> <span class="sc">*</span> <span class="dv">12</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="fl">0.1</span>);</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>arrows_1_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> arrows_1_dat, <span class="at">nrow =</span> <span class="dv">12</span>, <span class="at">ncol =</span> <span class="dv">4</span>);</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">print</span>(arrows_1_mat);</span></code></pre></div>
-<pre><code>##               [,1]        [,2]        [,3]         [,4]
-##  [1,] -0.037952385  0.12159636  0.06736261  0.077725891
-##  [2,]  0.039662731  0.23617572  0.08579252 -0.091308308
-##  [3,] -0.048540425 -0.07362141 -0.03033788  0.131301410
-##  [4,] -0.038090735  0.10009689 -0.11148383 -0.157911645
-##  [5,] -0.017669366 -0.08233246  0.03929396 -0.077374806
-##  [6,]  0.060962448  0.21037109  0.07641779  0.122237688
-##  [7,] -0.021271842  0.20526594 -0.07090851 -0.012987339
-##  [8,]  0.079722553  0.05035406 -0.07834921 -0.039372456
-##  [9,]  0.174264346  0.01465743  0.19655583 -0.096611864
-## [10,]  0.007105441 -0.17522059 -0.12327895 -0.020218859
-## [11,] -0.013981967  0.14736269  0.09636124  0.005378424
-## [12,] -0.009473325 -0.11439231  0.01596133  0.026384255</code></pre>
+<pre><code>##               [,1]        [,2]         [,3]         [,4]
+##  [1,]  0.196460835 -0.18517090 -0.059662263  0.044967757
+##  [2,]  0.268971871 -0.10309061 -0.085823851 -0.094777715
+##  [3,]  0.006876477  0.02126458  0.024962937 -0.154771980
+##  [4,]  0.076358312  0.04006987 -0.008065221 -0.055930096
+##  [5,] -0.257020097 -0.02091791  0.032430069 -0.103598572
+##  [6,]  0.070965638 -0.01357168 -0.094977189  0.116873185
+##  [7,]  0.112910363 -0.10334561 -0.139515768  0.019368350
+##  [8,]  0.133044403  0.03996895 -0.025577942 -0.002922793
+##  [9,]  0.108553909  0.12237193  0.017214057 -0.165980070
+## [10,] -0.146079294  0.07841298  0.198035097 -0.023188368
+## [11,] -0.053282544  0.05195308 -0.051093665 -0.014660534
+## [12,] -0.046851716 -0.10491225 -0.038807721 -0.112616713</code></pre>
 <p>We can initialise 12 allele values, one for each locus.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>loci <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">12</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>);</span></code></pre></div>
 <p>To then get the value of the first column of four hidden layer nodes
 (i.e., the first column of blue squares in Figure 1), we can use matrix
 multiplication.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">print</span>(loci <span class="sc">%*%</span> arrows_1_mat);</span></code></pre></div>
-<pre><code>##             [,1]      [,2]       [,3]      [,4]
-## [1,] -0.09618293 0.1375487 -0.1791899 0.2527209</code></pre>
+<pre><code>##          [,1]       [,2]       [,3]      [,4]
+## [1,] 0.639711 -0.3193519 -0.1620739 0.3227601</code></pre>
 <p>We can likewise use a 4 by 4 square matrix to represent the values of
 the arrows from the first column of four hidden layer nodes to the
 second column of hidden layer nodes.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>arrows_2_dat <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">4</span> <span class="sc">*</span> <span class="dv">4</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="fl">0.1</span>);</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>arrows_2_mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> arrows_2_dat, <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">4</span>);</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">print</span>(arrows_2_mat);</span></code></pre></div>
-<pre><code>##             [,1]        [,2]        [,3]         [,4]
-## [1,]  0.04727722 -0.06811080  0.07722064  0.188025819
-## [2,] -0.00682732 -0.08286263 -0.10865862  0.009617773
-## [3,] -0.02891154  0.02904223  0.29087301 -0.001334119
-## [4,] -0.10639280  0.01214428  0.02709815 -0.141328790</code></pre>
+<pre><code>##             [,1]        [,2]        [,3]        [,4]
+## [1,]  0.10116223 -0.04506309 -0.08838756 -0.06480460
+## [2,] -0.20900876 -0.16322785 -0.24719361 -0.07525864
+## [3,] -0.07120148 -0.05559558 -0.10167991 -0.04030772
+## [4,]  0.14632147 -0.09872113 -0.02408372 -0.23644109</code></pre>
 <p>We can then use matrix multiplication to map the 12 allele values to
 the values of the second column of hidden layer nodes.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">print</span>(loci <span class="sc">%*%</span> arrows_1_mat <span class="sc">%*%</span> arrows_2_mat);</span></code></pre></div>
-<pre><code>##             [,1]         [,2]       [,3]        [,4]
-## [1,] -0.02719338 -0.006981515 -0.0676464 -0.05223964</code></pre>
+<pre><code>##           [,1]         [,2]       [,3]        [,4]
+## [1,] 0.1902286 0.0004471194 0.03110565 -0.08720314</code></pre>
 <p>This pattern can continue, with 4 by 4 square matrices representing
 the value of arrows between columns of hidden layer nodes, and between
 the last hidden layer column and traits (note that the number of hidden
@@ -636,6 +636,9 @@ in Ecology and Evolution</em> 9: 2396–2401. <a href="https://doi.org/10.1101/2
 Hamblin, Steven. 2013. <span>“<span class="nocase">On the practical
 usage of genetic algorithms in ecology and evolution</span>.”</span>
 <em>Methods in Ecology and Evolution</em> 4 (2): 184–94. <a href="https://doi.org/10.1111/2041-210X.12000">https://doi.org/10.1111/2041-210X.12000</a>.
+</div>
+<div id="ref-Luke2013" class="csl-entry">
+Luke, Sean. 2013. <em>Essentials of Metaheuristics</em>. Second. Lulu.
 </div>
 </div>
 </div>
